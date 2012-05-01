@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<language description="English" ietf="en-US" version="0.8.1">
+  <resources>
+	<resource name="upload_menu_item">
+		Upload to FogBugz
+	</resource>
+	<resource name="uploading_message">
+		  Please wait while the screenshot is uploaded to your FogBugz instance.
+	</resource>
+	<resource name="upload_failure">
+		  An unexpected error occured:
+	  </resource>
+  </resources>
+</language>

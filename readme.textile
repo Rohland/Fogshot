@@ -1,0 +1,5 @@
+Fogshot is a plugin for "Greenshot":http://getgreenshot.org/, a screenshot utility for Windows.
+
+At this stage, it has only been tested with the following versions:
+
+* Greenshot-INSTALLER-UNSTABLE-0.8.1.1486.exe
