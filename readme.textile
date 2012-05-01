@@ -1,5 +1,7 @@
-Fogshot is a plugin for "Greenshot":http://getgreenshot.org/, a screenshot utility for Windows.
+Fogshot is a FogBugz plugin for "Greenshot":http://getgreenshot.org/ (a screenshot utility for Windows). It allows you to upload annotated screenshots directly to your FogBugz instance.
 
-At this stage, it has only been tested with the following versions:
+At this stage, it has only been tested with the following Greenshot versions:
 
 * Greenshot-INSTALLER-UNSTABLE-0.8.1.1486.exe
+
+You can download any of these versions from "here":http://getgreenshot.org/version-history/
