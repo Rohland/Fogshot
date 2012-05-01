@@ -8,6 +8,6 @@ At this stage, it has only been tested with the following Greenshot versions:
 
 You can download any of these versions from "here":http://getgreenshot.org/version-history/
 
-h2. Configuraiton and Installation
+h2. Configuration and Installation
 
 Once you've built the project, you'll need to execute the Powershell script called 'SendPluginToGreenshot.ps1' from the bin directory (release). This will copy the relevant files to your Greenshot installation. You should probably double check that your Greenshot installation directory matches the value of $greenshotPath.
