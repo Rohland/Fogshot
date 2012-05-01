@@ -1,3 +1,5 @@
+h2. Fogshot Overview
+
 Fogshot is a FogBugz plugin for "Greenshot":http://getgreenshot.org/ (a screenshot utility for Windows). It allows you to upload annotated screenshots directly to your FogBugz instance.
 
 At this stage, it has only been tested with the following Greenshot versions:
@@ -5,3 +7,7 @@ At this stage, it has only been tested with the following Greenshot versions:
 * Greenshot-INSTALLER-UNSTABLE-0.8.1.1486.exe
 
 You can download any of these versions from "here":http://getgreenshot.org/version-history/
+
+h2. Configuraiton and Installation
+
+Once you've built the project, you'll need to execute the Powershell script called 'SendPluginToGreenshot.ps1' from the bin directory (release). This will copy the relevant files to your Greenshot installation. You should probably double check that your Greenshot installation directory matches the value of $greenshotPath.
