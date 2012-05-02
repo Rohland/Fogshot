@@ -5,6 +5,7 @@ Fogshot is a FogBugz plugin for "Greenshot":http://getgreenshot.org/ (a screensh
 At this stage, it has only been tested with the following Greenshot versions:
 
 * Greenshot-INSTALLER-UNSTABLE-0.8.1.1486.exe
+* Greenshot-RC7-INSTALLER-0.8.1.1427.exe
 
 You can download any of these versions from "here":http://getgreenshot.org/version-history/
 
