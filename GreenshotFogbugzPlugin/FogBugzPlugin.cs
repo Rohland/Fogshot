@@ -65,6 +65,12 @@ namespace GreenshotFogbugzPlugin
 
         public void EditMenuClick(object sender, EventArgs eventArgs)
         {
+            if (!this.config.IsValid())
+            {
+                MessageBox.Show(this.lang.GetString(LangKey.configuration_error), this.lang.GetString(LangKey.configuration_error_caption), MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
             // Get the image
             string encodedImage = string.Empty;
             ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
@@ -76,43 +82,51 @@ namespace GreenshotFogbugzPlugin
                 encodedImage = System.Convert.ToBase64String(data);
             }
 
-            Dictionary<string, string> postParams = new Dictionary<string,string>();
-            postParams.Add("base64png1", System.Web.HttpUtility.UrlEncode(encodedImage));
-
-            StringBuilder encodedParameters = new StringBuilder();
-            foreach (var postParam in postParams)
-            {
-                encodedParameters.AppendFormat("{0}={1}&", postParam.Key, postParam.Value);
-            }
-
+            var caseSelectionResult = CasePrompt.ShowDialog(this.lang.GetString(LangKey.case_selection), this.lang.GetString(LangKey.case_selection_caption));
             BackgroundForm backgroundForm = BackgroundForm.ShowAndWait(FogbugzPlugin.FogbugzPluginAttribute.Name, this.lang.GetString(LangKey.uploading_message));
 
             try
             {
-                FogBugzWebClient client = new FogBugzWebClient();
-                client.Headers["Content-type"] = "application/x-www-form-urlencoded";
-                client.Headers["Accept-Encoding"] = "gzip, deflate";
-                var loginResult = client.UploadString(this.config.Url, string.Format("sPerson={0}&sPassword={1}&pre=preLogon&dest=pg%3DpgAbout", this.config.Username, this.config.GetClearPassword()));
-                client.Headers["Content-type"] = "application/x-www-form-urlencoded";
-                client.Headers["Accept-Encoding"] = "";
-                var result = client.UploadString(this.config.Url + "?pg=pgSubmitScreenshot&fSaveOnly=1&fEmail=0&fNewCase=1&cImageFragments=1", encodedParameters.ToString());
-            
-                // Parse and get the id
-                var idMatch = Regex.Match(result, @"\>[\d]+\<");
-                if (idMatch.Success)
-                {
-                    int id = Convert.ToInt32(idMatch.Value.Substring(1, idMatch.Value.Length - 2));
-                    string finalUrl = string.Format("{0}?pg=pgSubmitScreenshot&fNewCase=1&fEmail=0&ixScreenshot={1}", this.config.Url, id);
-                    System.Diagnostics.Process.Start(finalUrl);
-                }
+                this.UploadImage(caseSelectionResult, encodedImage);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(this.lang.GetString(LangKey.upload_failure) + " " + ex.Message);
+                LOG.Error("An exception occured attempting to upload the image", ex);
+                MessageBox.Show(this.lang.GetString(LangKey.upload_failure) + " " + ex.Message, this.lang.GetString(LangKey.upload_failure_caption), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 backgroundForm.CloseDialog();
+            }
+        }
+
+        private void UploadImage(CaseSelectionResult caseSelection, string base64Image)
+        {
+            string postParams = "base64png1=" + System.Web.HttpUtility.UrlEncode(base64Image);
+            FogBugzWebClient client = new FogBugzWebClient();
+            client.Headers["Content-type"] = "application/x-www-form-urlencoded";
+            client.Headers["Accept-Encoding"] = "gzip, deflate";
+
+            // Login
+            var loginResult = client.UploadString(this.config.Url, string.Format("sPerson={0}&sPassword={1}&pre=preLogon&dest=pg%3DpgAbout", this.config.Username, this.config.GetClearPassword()));
+
+            // Upload screnshot
+            client.Headers["Content-type"] = "application/x-www-form-urlencoded";
+            client.Headers["Accept-Encoding"] = "";
+            var result = client.UploadString(this.config.Url + GetUploadParameters(caseSelection.IsNewCase, caseSelection.CaseId), postParams.ToString());
+            
+            // Parse and get the id then launch browser at location
+            var idMatch = Regex.Match(result, @"\>[\d]+\<");
+            if (idMatch.Success)
+            {
+                int id = Convert.ToInt32(idMatch.Value.Substring(1, idMatch.Value.Length - 2));
+                string finalUrl = string.Format("{0}?{1}", this.config.Url, GetLaunchParameters(caseSelection.IsNewCase, caseSelection.CaseId, id));
+                System.Diagnostics.Process.Start(finalUrl);
+            }
+            else
+            {
+                LOG.Error("FogBugz didn't return a valid response for the upload command. The result was: " + result);
+                MessageBox.Show(this.lang.GetString(LangKey.upload_failure), this.lang.GetString(LangKey.upload_failure_caption), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -123,6 +137,30 @@ namespace GreenshotFogbugzPlugin
                 if (stream == null)
                     return null;
                 return new Icon(stream);
+            }
+        }
+
+        private static string GetUploadParameters(bool isNewCase, int caseId)
+        {
+            if (isNewCase)
+            {
+                return "?pg=pgSubmitScreenshot&fSaveOnly=1&fEmail=0&fNewCase=1&cImageFragments=1";
+            }
+            else
+            {
+                return string.Format("?pg=pgSubmitScreenshot&fSaveOnly=1&fEmail=0&fNewCase=0&ixBug={0}&cImageFragments=1", caseId);
+            }
+        }
+
+        private static string GetLaunchParameters(bool isNewCase, int caseId, int ixScreenshotId)
+        {
+            if (isNewCase)
+            {
+                return string.Format("pg=pgSubmitScreenshot&fNewCase=1&fEmail=0&ixScreenshot={0}", ixScreenshotId);
+            }
+            else
+            {
+                return string.Format("pg=pgSubmitScreenshot&fNewCase=0&ixBug={0}&fEmail=0&ixScreenshot={1}", caseId, ixScreenshotId);
             }
         }
     }

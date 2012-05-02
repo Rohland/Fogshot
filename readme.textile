@@ -10,4 +10,6 @@ You can download any of these versions from "here":http://getgreenshot.org/versi
 
 h2. Configuration and Installation
 
-Once you've built the project, you'll need to execute the Powershell script called 'SendPluginToGreenshot.ps1' from the bin directory (release). This will copy the relevant files to your Greenshot installation. You should probably double check that your Greenshot installation directory matches the value of $greenshotPath.
+To install, you will need to exit Greenshot first. Once you've built the project, you'll need to execute the Powershell script called 'SendPluginToGreenshot.ps1' from the bin directory (release). This will copy the relevant files to your Greenshot installation. You should probably double check that your Greenshot installation directory matches the value of $greenshotPath.
+
+Once installed, you will need to configure your FogBugz account settings. You can do this by clicking EDIT > PREFERENCES. Click on the PLUGINS tab, select the FogBugz Plugin and click Configure.

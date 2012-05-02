@@ -2,13 +2,28 @@
 <language description="English" ietf="en-US" version="0.8.1">
   <resources>
 	<resource name="upload_menu_item">
-		Upload to FogBugz
+	Upload to FogBugz
 	</resource>
 	<resource name="uploading_message">
-		  Please wait while the screenshot is uploaded to your FogBugz instance.
+		Please wait while the screenshot is uploaded to your FogBugz instance.
 	</resource>
 	<resource name="upload_failure">
-		  An unexpected error occured:
+		An unexpected error occured.
+	</resource>
+	<resource name="upload_failure_caption">
+		Upload Failure
+	</resource>
+	<resource name="configuration_error">
+		Your account configuration is invalid or hasn't been configured. Please configure your account settings by clicking EDIT > PREFERENCES and selecting the PLUGIN tab. Click on the FogBugz entry and then click configure.
+	</resource>
+	<resource name="configuration_error_caption">
+		  Invalid account configuration
+	</resource>
+	  <resource name="case_selection_caption">
+		  FogBugz Case Selection
+	  </resource>
+	  <resource name="case_selection">
+		  Please enter a case Id to attach the screenshot to. If you wish to generate a new case, leave the the Id as 0 and click ok.
 	  </resource>
   </resources>
 </language>

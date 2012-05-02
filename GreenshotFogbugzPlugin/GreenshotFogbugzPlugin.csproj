@@ -46,6 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CasePrompt.cs" />
+    <Compile Include="CasePromptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CasePromptForm.Designer.cs">
+      <DependentUpon>CasePromptForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="FogBugzConfiguration.cs" />
     <Compile Include="FogBugzPlugin.cs" />
     <Compile Include="FogBugzWebClient.cs">
@@ -62,6 +69,9 @@
     <Compile Include="SymmetricEncryptionService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="CasePromptForm.resx">
+      <DependentUpon>CasePromptForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="fogbugz.ico" />
     <Content Include="language_fogbugzplugin-en-US.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

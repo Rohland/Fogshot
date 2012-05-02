@@ -26,6 +26,11 @@ namespace GreenshotFogbugzPlugin
     {
         upload_menu_item,
         uploading_message,
-        upload_failure
+        upload_failure,
+        upload_failure_caption,
+        configuration_error,
+        configuration_error_caption,
+        case_selection,
+        case_selection_caption
     }
 }

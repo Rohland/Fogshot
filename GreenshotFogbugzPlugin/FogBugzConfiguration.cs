@@ -40,5 +40,11 @@ namespace GreenshotFogbugzPlugin
         {
             return SymmetricEncryptionService.Decrypt(key, this.Password);
         }
+
+        public bool IsValid()
+        {
+            var invalid = string.IsNullOrEmpty(this.Url) || this.Url == "https://INSTANCE.fogbugz.com/default.asp" || string.IsNullOrEmpty(this.Username) || string.IsNullOrEmpty(this.Password);
+            return !invalid;
+        }
     }
 }
